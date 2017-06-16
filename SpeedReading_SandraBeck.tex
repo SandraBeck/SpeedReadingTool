@@ -1,0 +1,181 @@
+\documentclass[
+	11pt, 				%Schrfitgröße
+	a4paper,			%Seitenformat
+ 	DIV = calc, 		%Satzspiegel  
+ 	oneside, 			% Doppelseitiges Layout
+ 	parskip=half+, 		% + - * Absatzeinrückung 
+ 	bigheadings, 		% Große Überschriften
+ 	bibtotoc,			% Literaturverzeichnis ins Inhaltsverz.
+ 	liststotoc,			% Abb.verz. ins Inhaltsverz.
+ 	cleardoubleempty, 	% Keine Kopfzeile bei neuer 
+ 	halfparskip,		% Halbe Zeile Abstand bei neuem Absatz
+ 	openany			 
+	]{scrbook}
+
+\parskip = 2ex		%Absatzabstand
+
+%Dateicodierung
+\usepackage[utf8]{inputenc}
+
+%Spracheinstellungen
+\usepackage[ngerman]{babel}
+
+%Bilder
+\usepackage{graphicx}
+\graphicspath{{Bilder/}}
+\usepackage{tikz}
+\usetikzlibrary{shapes.misc,shadows}
+
+%Package für Glossar
+\usepackage[toc]{glossaries}
+\makenoidxglossaries
+\setacronymstyle{long-short}
+\newacronym{wpm}{WpM}{Worte pro Minute}
+\newacronym{js}{JS}{JavaScript}
+\newacronym{pdf}{PDF}{Portable Document Format}
+\newacronym{KI}{KI}{künstliche Intelligenz}
+\newacronym{iso}{ISO}{International Organization for Standardization }
+
+%Referenz in der PDF
+\usepackage[hidelinks, 
+	pdfstartpage = 1, 
+	bookmarksopen, 
+	pdfstartview = Fit, 
+	pdfauthor= {Sandra Beck}, 
+	]{hyperref}
+	
+%Schrifteinstellungen
+\usepackage{lmodern} %Vektorschrift
+\renewcommand{\familydefault}{\sfdefault}
+\usepackage{booktabs}
+\usepackage{wasysym}
+
+%Package fuer JS-Programmierung
+\usepackage{insdljs}
+
+% Mathemodus ohne Serifen
+ \usepackage{sansmath}
+ \sansmath
+
+%Optimierung der Typographie
+\usepackage{microtype}
+
+%Literaturverwaltung mit biblatex
+\usepackage{csquotes}	%Anführungszeichen
+\usepackage[
+		backend = biber, 
+		style = alphabetic, 	
+	]{biblatex}
+\addbibresource{ref/quellen.bib} 
+\usepackage{listings}
+\usepackage{xcolor}
+\usepackage{tabularx}
+\usepackage{prettyref}
+%Using Links
+\usepackage{url}
+%Colors for Code
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{background}{rgb}{0.9,0.9,0.9}
+\definecolor{mymauve}{rgb}{0.58,0,0.82} 
+\definecolor{myred}{rgb}{0.6,0,0}
+%Shortcuts for colored symboles 
+\def\good{ \color{mygreen}{\smiley } }
+\def\bad{ \color{myred}{\frownie } }
+\newcommand{\fow}[2][black]{\textcolor{#1}{#2}}
+
+%Konfiguration der Code-Einbindung
+\lstdefinelanguage{JavaScript}{
+	keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+	keywordstyle=\color{blue}\bfseries,
+	identifierstyle=\color{black},
+	sensitive=false,
+	comment=[l]{//},
+	morecomment=[s]{/*}{*/},
+	commentstyle=\color{mygreen}\ttfamily,
+	stringstyle=\color{mymauve}\ttfamily,
+	morestring=[b]',
+	morestring=[b]",
+}
+
+\lstset{
+	language=JavaScript,
+	backgroundcolor=\color{background},
+	extendedchars=true,
+	basicstyle=\footnotesize\ttfamily,
+	showstringspaces=false,
+	showspaces=false,
+	numbers=left,
+	numberstyle=\footnotesize,
+	numbersep=9pt,
+	stepnumber=5,
+	tabsize=2,
+	breaklines=true,
+	showtabs=false,
+	captionpos=b
+}
+
+
+
+
+% create PDF object from file content
+\immediate\pdfobj stream file {speedRead.js}
+%create JavaScript action
+\immediate\pdfobj{ <</S/JavaScript /JS \the\pdflastobj\space 0 R>> }
+\edef\actionA{\the\pdflastobj\space 0 R}
+
+% create PDF object from file content
+\immediate\pdfobj stream file {double.js}
+%create JavaScript action
+\immediate\pdfobj{ <</S/JavaScript /JS \the\pdflastobj\space 0 R>> }
+\edef\actionB{\the\pdflastobj\space 0 R}
+
+
+%register JavaScript actions for execution when the document is opened
+\pdfnames{ /JavaScript << /Names [ (someDocLevelJS) \actionA \space (otherDocLevelJS) \actionB ] >> }
+
+
+%Titelseite
+% Angaben zum Dokument
+\titlehead{{\hfill \includegraphics[width = 0.7\textwidth]{thi_logo} \hfill
+		}
+	\hfill
+}
+\subject{Seminararbeit}
+\title{Speed-Reading \\ Methodik und naturwissenschaftlicher Hintergrund des schnellen Lesens}\bigskip
+\subtitle{\Large Eine Untersuchung im Rahmen einer Requirements-Analyse für ein \LaTeX - Speed-Reading-Tool}
+\author{vorgelegt von \\ \textbf{Sandra Beck} \\   Informatik \\ Semester 6} 
+\publishers{Diese Arbeit entstand im Rahmen der Veranstaltung \glqq Professionelle Textsatzsysteme\grqq \ im Sommersemester 2017}
+	
+ 
+	
+%Selektives Importieren
+\includeonly{
+		Kapitel/0Erklaerung,
+		Kapitel/1Einleitung,
+		Kapitel/2SpeedReading,
+		Kapitel/3TechnologienSA,
+		Kapitel/4ErgebnisSpeedReader
+	}
+% eigentliches Dokument
+\begin{document}
+	\maketitle 
+	\clearpage 
+	\include{Kapitel/0Erklaerung}
+	\cleardoublepage 	
+	\tableofcontents
+	\cleardoublepage
+	\include{Kapitel/1Einleitung}
+	\cleardoublepage 
+	\include{Kapitel/2SpeedReading}
+	\cleardoublepage 
+	\include{Kapitel/3TechnologienSA}
+	\cleardoublepage 
+	\include{Kapitel/4ErgebnisSpeedReader}
+	\cleardoublepage 
+	\printnoidxglossaries 
+	\cleardoublepage
+	\printbibliography
+	\cleardoublepage 
+	\listoffigures
+\end{document}
